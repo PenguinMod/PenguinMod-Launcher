@@ -1,2 +1,3 @@
 # Penguinmod Launcher
-### wow so cool
+### Description
+Launcher for PenguinMod. Downloads the latest PM version and compiles it to be used outside of your web browser.
