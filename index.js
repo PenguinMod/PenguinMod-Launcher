@@ -1,4 +1,5 @@
 const { app, BrowserWindow, dialog, ipcMain } = require('electron');
+const childProcess = require("child_process");
 const path = require('path');
 
 import('fix-path').then(module => {
@@ -13,7 +14,7 @@ function createWindow() {
         icon: "favicon.ico",
         width: 1280,
         height: 720,
-        backgroundColor: "#009CCC",
+        backgroundColor: "#ffffff",
         webPreferences: {
             devTools: IsDeveloperMode,
             sandbox: false,
@@ -65,4 +66,44 @@ ipcMain.handle("setProgress", (_, precentage) => {
 });
 ipcMain.handle("quitApp", (_, __) => {
     app.quit();
+});
+
+// TODO: we should start on a port that is not 5173 (should be exclusive to launcher so not 5174 either)
+//       api needs to be able to handle that btw
+let existingHomeProcess;
+ipcMain.handle("beginHomeProcess", () => {
+    if (existingHomeProcess) {
+        existingHomeProcess.kill('SIGINT');
+    }
+
+    const extractedArchivesPath = path.resolve("./penguinmod/compilation/extraction");
+    const homePagePath = path.join(extractedArchivesPath, 'PenguinMod-Home-main');
+    const command = `cd ${JSON.stringify(homePagePath)} && npm run dev --force`;
+    const process = childProcess.spawn(command, { shell: true });
+    existingHomeProcess = process;
+    
+    process.stdout.on('data', (data) => {
+        console.log('HOME PROCESS STDOUT;', Buffer.from(data).toString());
+    });
+    process.stderr.on('data', (data) => {
+        console.log('HOME PROCESS STDERR;', Buffer.from(data).toString());
+    });
+
+    process.on('close', (code) => {
+        console.log('HOME PROCESS CLOSED; CODE', code);
+    });
+});
+ipcMain.handle("goToHome", () => {
+    // TODO: we should not use port 5173
+    window.loadURL('http://localhost:5173/');
+});
+app.on("window-all-closed", () => {
+    if (existingHomeProcess) {
+        existingHomeProcess.kill('SIGINT');
+    }
+});
+app.on('before-quit', () => {
+    if (existingHomeProcess) {
+        existingHomeProcess.kill('SIGINT');
+    }
 });

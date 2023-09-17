@@ -7,10 +7,50 @@
                 50% { rotate: 180deg; }
                 100% { rotate: 360deg; }
             }
+            @keyframes bouncing {
+                0% {
+                    left: 0;
+                    top: 0;
+                    transform: rotate(0deg);
+                    animation-timing-function: ease-out;
+                }
+                25% {
+                    left: 10px;
+                    top: -50px;
+                    transform: rotate(10deg);
+                    animation-timing-function: ease-in;
+                }
+                50% {
+                    left: 0;
+                    top: 0;
+                    transform: rotate(0deg);
+                    animation-timing-function: ease-out;
+                }
+                75% {
+                    left: -10px;
+                    top: -50px;
+                    transform: rotate(-10deg);
+                    animation-timing-function: ease-in;
+                }
+                100% {
+                    left: 0;
+                    top: 0;
+                    transform: rotate(0deg);
+                }
+            }
 
             * {
                 color: white;
                 font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            }
+            /* why in gods name is html and body not 100% height? */
+            html {
+                height: 100%;
+            }
+            body {
+                background: #009CCC;
+                height: calc(100% - 16px);
+                margin: 8px;
             }
             textarea {
                 background: rgba(0, 0, 0, 0.5);
