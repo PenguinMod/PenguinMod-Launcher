@@ -23,6 +23,7 @@
     "electron": "^25.4.0"
   },
   "dependencies": {
-    "jszip": "^3.10.1"
+    "decompress-zip": "^0.3.3",
+    "fix-path": "^4.0.0"
   }
 }
