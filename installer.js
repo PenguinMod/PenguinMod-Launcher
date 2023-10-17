@@ -5,7 +5,7 @@ const path = require("path");
 // note: this does not need to be a secret, its just used to check if PM is actually installed on startup
 const verificationKey = "WVVkR2IxbFRRakZKUjNoMllqSjBiRnBCUFQwPQ==";
 
-const connectionVerify = "https://penguinmod.site/favicon.ico";
+const connectionVerify = "https://penguinmod.com/favicon.ico";
 const archivePath = "https://github.com/PenguinMod/penguinmod.github.io/archive/refs/heads/develop.zip";
 const homePath = "https://github.com/PenguinMod/PenguinMod-Home/archive/refs/heads/main.zip";
 class Installer {
@@ -158,7 +158,7 @@ class Installer {
         // this just accesses a PM icon, doesnt query github so we dont get ratelimited
         const connectedOnline = await Installer.checkOnline();
         if (!connectedOnline) {
-        // if (true) { // debug
+            // if (true) { // debug
             Installer.log('Failed connection test. You may not be connected to the internet.');
             Installer.log('Please click "Refresh" to try again when you are ready.');
             throw new Error('Unable to view PenguinMod');
